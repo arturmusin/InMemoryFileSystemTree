@@ -104,13 +104,18 @@ namespace AM.InMemoryFileSystemTree
 				prefixPath += newNodeName + "/";
 				postfixPath = string.Join("/", endingChunks);
 
-				var dir = root.Nodes.FirstOrDefault(x => x.Name == newNodeName);
+				var dir = root.Nodes.FirstOrDefault(x => x.Name == newNodeName && x.NodeType == NodeType.Directory);
 				if (dir == null)
 				{
 					// FILE: break loop
 					if (newNodeName.Contains("."))
 					{
 						string pathToFile = rootPtr.Name + "/" + path;
+
+						// checking if file with the same name already exists
+						if (root.Nodes.Any(x => x.Name.Equals(newNodeName, StringComparison.InvariantCultureIgnoreCase)))
+							throw new ArgumentException($"File with [{newNodeName}] name already exists at Path: [{pathToFile}].");
+						
 						var fileToCreate = new Node(newNodeName, pathToFile, NodeType.File);
 						root.Nodes.Add(fileToCreate);
 						root.FileCount++;
