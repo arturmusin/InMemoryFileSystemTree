@@ -9,7 +9,7 @@ namespace AM.InMemoryFileSystemTree
 	/// <summary>
 	/// Represents in-memory file system tree
 	/// </summary>
-	public class InMemoryFileSystemTree : IEnumerable<Node>
+	public class InMemoryFileSystemTree : IFileSystemTree, IEnumerable<Node>
 	{
 		/// <summary>
 		/// The topmost "root" node of the tree
@@ -76,7 +76,7 @@ namespace AM.InMemoryFileSystemTree
 		/// <summary>
 		/// Creates new Node under path specified
 		/// </summary>
-		public void Add(string path, long fileSize, long fileCreatedAt)
+		public void Add(string path, long fileSize = 0, long fileCreatedAt = 0)
 		{
 			InsertNode(Root, path);
 		}
